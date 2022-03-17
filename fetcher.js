@@ -1,7 +1,10 @@
+const hostAddress = process.argv[2].replace("http://www.", '').replace('/','');
+const localFile = process.argv[3];
+
 const fs = require('fs');
 const net = require('net');
 const conn = net.createConnection({
-  host: 'example.edu',
+  host: hostAddress,
   port: 80
 });
 conn.setEncoding('UTF8');
@@ -14,7 +17,7 @@ conn.on('connect', () => {
 });
 conn.on('data', (data) => {
   console.log(`Downloaded and saved ${data.length} bytes to ./index.html`);
-  fs.writeFile('index.html', data, err => {
+  fs.writeFile(`${localFile}`, data, err => {
     if (err) {
       console.error(err);
       return;
